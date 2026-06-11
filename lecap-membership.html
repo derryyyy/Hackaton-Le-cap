@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LE CAP — Membership</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F2EFEA;
+  --bg-card:#FFFFFF;
+  --grid-color:rgba(0,0,0,0.055);
+  --text-dark:#1A1A1A;
+  --text-mid:#555;
+  --text-light:#888;
+  --blue:#3B5FDB;
+  --blue-bg:rgba(59,95,219,0.08);
+  --border:rgba(0,0,0,0.08);
+  --border-hover:rgba(0,0,0,0.16);
+  --radius:14px;
+  --radius-sm:8px;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 12px rgba(0,0,0,0.04);
+  --shadow-hover:0 2px 8px rgba(0,0,0,0.08),0 8px 24px rgba(0,0,0,0.06);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size:80px 80px;
+  color:var(--text-dark);
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;padding:0 2.5rem;height:64px;
+  background:rgba(242,239,234,0.88);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{width:34px;height:34px;border-radius:6px;object-fit:cover}
+.nav-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;color:var(--text-dark);letter-spacing:0.06em}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:2rem}
+.nav-link{color:var(--text-light);text-decoration:none;font-size:0.78rem;font-weight:400;letter-spacing:0.04em;transition:color 0.2s}
+.nav-link:hover{color:var(--text-dark)}
+
+.lang-toggle{display:flex;background:rgba(0,0,0,0.04);border-radius:20px;padding:3px;gap:2px}
+.lang-btn{background:transparent;border:none;color:var(--text-light);font-size:0.7rem;font-family:'DM Sans',sans-serif;padding:4px 12px;border-radius:16px;cursor:pointer;letter-spacing:0.06em;transition:all 0.2s;font-weight:400}
+.lang-btn.active{background:#fff;color:var(--blue);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+
+/* ── HERO ── */
+.hero{
+  padding:160px 2.5rem 80px;
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;
+}
+.hero-left{}
+.hero-eyebrow{
+  font-size:0.72rem;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:1.5rem;
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.5rem,6vw,6rem);
+  font-weight:300;line-height:1.05;
+  color:var(--text-dark);margin-bottom:1.5rem;
+  letter-spacing:-0.01em;
+}
+.hero-sub{
+  font-size:1rem;font-weight:300;color:var(--text-mid);
+  line-height:1.8;max-width:440px;margin-bottom:2.5rem;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--blue);color:#fff;
+  font-size:0.8rem;font-weight:500;letter-spacing:0.06em;
+  padding:0.85rem 2rem;border-radius:40px;
+  text-decoration:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all 0.2s;box-shadow:0 2px 8px rgba(59,95,219,0.25);
+}
+.hero-cta:hover{background:#2d4fc0;transform:translateY(-1px);box-shadow:0 4px 16px rgba(59,95,219,0.35)}
+.hero-cta svg{width:14px;height:14px;transition:transform 0.2s}
+.hero-cta:hover svg{transform:translateX(3px)}
+
+.hero-right{
+  background:var(--bg-card);border-radius:var(--radius);
+  padding:2rem;box-shadow:var(--shadow);border:1px solid var(--border);
+}
+.hero-stat-label{font-size:0.7rem;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.3rem}
+.hero-stat-val{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--text-dark);line-height:1;margin-bottom:1.5rem}
+.hero-stat-divider{height:1px;background:var(--border);margin-bottom:1.5rem}
+.hero-img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;
+  border-radius:calc(var(--radius) - 4px);margin-bottom:1rem;
+}
+.hero-img-cap{font-size:0.75rem;color:var(--text-light);font-weight:300}
+
+/* ── SPACES ── */
+.spaces-section{max-width:1100px;margin:0 auto;padding:0 2.5rem 5rem}
+.spaces-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.space-card{background:var(--bg-card);padding:1.8rem 2rem;position:relative}
+.space-accent-dot{width:8px;height:8px;border-radius:50%;margin-bottom:1rem}
+.space-tag{font-size:0.65rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.4rem}
+.space-name{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--text-dark);margin-bottom:0.5rem}
+.space-desc{font-size:0.82rem;font-weight:300;color:var(--text-mid);line-height:1.65}
+
+/* ── SECTION HEADER ── */
+.section-header{max-width:1100px;margin:0 auto;padding:5rem 2.5rem 2.5rem}
+.section-eyebrow{font-size:0.7rem;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300;color:var(--text-dark);margin-bottom:0.8rem;line-height:1.1}
+.section-sub{font-size:0.92rem;font-weight:300;color:var(--text-mid);line-height:1.8;max-width:520px}
+
+/* ── TIERS ── */
+.tiers-section{max-width:1100px;margin:0 auto;padding:0 2.5rem 6rem}
+.tiers-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+
+.tier-card{
+  background:var(--bg-card);
+  display:grid;grid-template-columns:200px 1fr auto;
+  align-items:stretch;
+  cursor:pointer;transition:background 0.18s;
+  position:relative;
+}
+.tier-card:hover{background:#faf9f7}
+
+.tier-left{
+  padding:2.5rem 2rem;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.tier-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;line-height:1;opacity:0.15;margin-bottom:auto}
+.tier-accent-bar{width:32px;height:2px;margin-top:1.5rem;border-radius:2px}
+
+.tier-body{padding:2.5rem 2.5rem}
+.tier-name{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:var(--text-dark);margin-bottom:0.3rem;line-height:1}
+.tier-price{font-size:0.78rem;font-weight:300;color:var(--text-light);margin-bottom:1rem;letter-spacing:0.03em}
+.tier-desc{font-size:0.88rem;font-weight:300;color:var(--text-mid);line-height:1.75;margin-bottom:1.5rem;max-width:480px}
+
+.tier-tags{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tier-tag{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:40px;
+  display:flex;align-items:center;gap:8px;
+  padding:0.5rem 0.9rem;font-size:0.75rem;font-weight:400;color:var(--text-mid);
+}
+.tier-tag-icon{
+  width:18px;height:18px;border-radius:50%;
+  border:1.5px solid;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.tier-tag-icon svg{width:9px;height:9px}
+
+.tier-action{
+  padding:2.5rem 2rem;border-left:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;min-width:140px;
+}
+.tier-btn{
+  background:transparent;border:1px solid var(--border-hover);
+  color:var(--text-mid);font-size:0.75rem;font-family:'DM Sans',sans-serif;
+  font-weight:400;letter-spacing:0.06em;
+  padding:0.65rem 1.4rem;border-radius:40px;cursor:pointer;white-space:nowrap;
+  transition:all 0.2s;
+}
+.tier-card:hover .tier-btn{
+  background:var(--blue);border-color:var(--blue);color:#fff;
+  box-shadow:0 2px 8px rgba(59,95,219,0.25);
+}
+
+/* ── MODAL ── */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(26,26,26,0.5);
+  display:none;align-items:center;justify-content:center;
+  z-index:500;padding:1rem;backdrop-filter:blur(8px);
+}
+.modal-backdrop.open{display:flex}
+.modal{
+  background:var(--bg-card);border-radius:var(--radius);
+  border:1px solid var(--border);
+  width:100%;max-width:520px;max-height:92vh;overflow-y:auto;
+  padding:2.5rem;position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,0.15);
+  animation:modal-in 0.22s ease;
+}
+@keyframes modal-in{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{
+  position:absolute;top:1.4rem;right:1.6rem;
+  background:none;border:1px solid var(--border);border-radius:50%;
+  width:32px;height:32px;cursor:pointer;color:var(--text-light);
+  font-size:1rem;display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.modal-close:hover{border-color:var(--border-hover);color:var(--text-dark)}
+.modal-eyebrow{font-size:0.65rem;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.8rem}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:400;color:var(--text-dark);margin-bottom:0.5rem;line-height:1.05}
+.modal-sub{font-size:0.85rem;font-weight:300;color:var(--text-mid);line-height:1.7;margin-bottom:2rem}
+
+.steps{display:flex;gap:5px;margin-bottom:2rem}
+.step-dot{height:3px;border-radius:2px;background:var(--border);transition:all 0.25s;flex:1}
+.step-dot.active{background:var(--blue)}
+.step-dot.done{background:#22C55E}
+
+.confirm-box{
+  background:var(--bg);border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  border-left:3px solid var(--blue);
+  padding:1.2rem 1.4rem;margin-bottom:1.8rem;
+}
+.confirm-label{font-size:0.65rem;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-light);margin-bottom:6px}
+.confirm-name{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--text-dark)}
+.confirm-price{font-size:0.8rem;font-weight:300;color:var(--text-light);margin-top:3px}
+
+.rent-link-btn{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.9rem 1.2rem;border:1px solid;border-radius:var(--radius-sm);
+  text-decoration:none;font-size:0.78rem;font-weight:400;font-family:'DM Sans',sans-serif;
+  margin-bottom:10px;transition:all 0.18s;
+}
+.rent-link-btn:hover{opacity:0.85}
+
+.form-field{margin-bottom:1.1rem}
+.form-field label{display:block;font-size:0.72rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:8px}
+.form-field input,.form-field textarea{
+  width:100%;padding:0.75rem 1rem;
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  color:var(--text-dark);font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:300;
+  outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+}
+.form-field input:focus,.form-field textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(59,95,219,0.1);
+}
+.form-field textarea{height:90px;resize:none}
+
+.btn-primary{
+  width:100%;padding:0.9rem;
+  background:var(--blue);color:#fff;
+  border:none;border-radius:40px;
+  font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;letter-spacing:0.06em;
+  cursor:pointer;transition:all 0.2s;
+  box-shadow:0 2px 8px rgba(59,95,219,0.25);
+}
+.btn-primary:hover{background:#2d4fc0;transform:translateY(-1px);box-shadow:0 4px 16px rgba(59,95,219,0.35)}
+
+.success-wrap{text-align:center;padding:1rem 0}
+.success-check{
+  width:64px;height:64px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;
+  background:rgba(34,197,94,0.1);border:1.5px solid rgba(34,197,94,0.4);
+  font-size:1.5rem;color:#22C55E;
+}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:var(--text-dark);margin-bottom:0.8rem;line-height:1.1}
+.success-body{font-size:0.88rem;font-weight:300;color:var(--text-mid);line-height:1.75;max-width:360px;margin:0 auto 2rem}
+.success-contact{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:1rem 1.2rem;font-size:0.78rem;font-weight:300;color:var(--text-mid);line-height:1.8;margin-bottom:2rem;text-align:left;
+}
+.success-contact strong{display:block;color:var(--text-dark);font-weight:500;margin-bottom:2px}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);background:rgba(255,255,255,0.5);
+  padding:4rem 2.5rem;
+}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:3rem}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--text-dark);margin-bottom:0.8rem;letter-spacing:0.04em}
+.foot-detail{font-size:0.8rem;font-weight:300;color:var(--text-mid);line-height:2}
+.foot-detail a{color:var(--blue);text-decoration:none}
+.foot-detail a:hover{text-decoration:underline}
+.foot-col-label{font-size:0.65rem;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-light);margin-bottom:1rem}
+.foot-links{list-style:none}
+.foot-links li{margin-bottom:0.5rem}
+.foot-links a{font-size:0.82rem;font-weight:300;color:var(--text-mid);text-decoration:none;transition:color 0.2s}
+.foot-links a:hover{color:var(--text-dark)}
+.foot-bottom{max-width:1100px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid var(--border);font-size:0.72rem;font-weight:300;color:var(--text-light)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:2.5rem;padding-top:120px}
+  .hero-right{display:none}
+  .tier-card{grid-template-columns:1fr}
+  .tier-left{border-right:none;border-bottom:1px solid var(--border);padding:1.5rem 1.5rem 1rem;flex-direction:row;align-items:center;gap:1rem}
+  .tier-accent-bar{margin-top:0;width:24px}
+  .tier-body{padding:1.5rem}
+  .tier-tags{grid-template-columns:1fr}
+  .tier-action{border-left:none;border-top:1px solid var(--border);padding:1rem 1.5rem;justify-content:flex-start;min-width:auto}
+  .spaces-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+  nav .nav-link{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://www.lecap.brussels" class="nav-logo" target="_blank">
+    <img src="https://static.wixstatic.com/media/83d1e2_e04d2b5b3fb748029c23b9df2cbae895~mv2.jpeg/v1/fill/w_80,h_80,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/lecap.jpeg" alt="Le CAP">
+    <span class="nav-logo-name">Le CAP</span>
+  </a>
+  <div class="nav-right">
+    <a href="https://www.lecap.brussels" class="nav-link" target="_blank" data-fr="Site officiel" data-en="Official site">Site officiel</a>
+    <a href="#tiers" class="nav-link" data-fr="Adhésion" data-en="Membership">Adhésion</a>
+    <a href="#contact" class="nav-link" data-fr="Contact" data-en="Contact">Contact</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow" data-fr="Tiers-lieu · Anderlecht, Bruxelles" data-en="Third place · Anderlecht, Brussels">Tiers-lieu · Anderlecht, Bruxelles</div>
+    <h1 class="hero-title">
+      <span id="h1a" data-fr="Rejoindre" data-en="Join">Rejoindre</span><br>
+      <span id="h1b" data-fr="Le CAP." data-en="Le CAP.">Le CAP.</span>
+    </h1>
+    <p class="hero-sub" data-fr="Le CAP n'existe que par ceux qui le font vivre. Choisissez votre forme d'engagement — audience, résidence, contribution ou partenariat." data-en="Le CAP only exists through those who make it live. Choose your form of engagement — audience, residency, contribution or partnership.">Le CAP n'existe que par ceux qui le font vivre. Choisissez votre forme d'engagement — audience, résidence, contribution ou partenariat.</p>
+    <a href="#tiers" class="hero-cta" data-fr="Voir les niveaux" data-en="See tiers">Voir les niveaux
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat-label" data-fr="Lieu fondé en" data-en="Space founded">Lieu fondé en</div>
+    <div class="hero-stat-val">2022</div>
+    <div class="hero-stat-divider"></div>
+    <img class="hero-img"
+      src="https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg"
+      alt="Le CAP — Le Pont">
+    <div class="hero-img-cap">Le Pont · 35 place Bizet, Anderlecht</div>
+  </div>
+</section>
+
+<!-- SPACES STRIP -->
+<div class="spaces-section">
+  <div class="spaces-grid">
+    <div class="space-card">
+      <div class="space-accent-dot" style="background:#E8A020"></div>
+      <div class="space-tag" data-fr="Innovation sociale" data-en="Social innovation">Innovation sociale</div>
+      <div class="space-name">Le Phare</div>
+      <div class="space-desc" data-fr="Antenne du contrat de quartier durable Bizet — tricot, alimentation, soutien scolaire" data-en="Antenna of the Bizet neighbourhood contract — knitting, food, school support">Antenne du contrat de quartier durable Bizet — tricot, alimentation, soutien scolaire</div>
+    </div>
+    <div class="space-card">
+      <div class="space-accent-dot" style="background:#3B5FDB"></div>
+      <div class="space-tag" data-fr="Création artistique" data-en="Artistic creation">Création artistique</div>
+      <div class="space-name">Le Pont</div>
+      <div class="space-desc" data-fr="Plateau 80m², lumière zénithale, cuisine, jardin — résidences, workshops, tests publics" data-en="80m² stage, zenithal light, kitchen, garden — residencies, workshops, public previews">Plateau 80m², lumière zénithale, cuisine, jardin — résidences, workshops, tests publics</div>
+    </div>
+    <div class="space-card">
+      <div class="space-accent-dot" style="background:#2E7D52"></div>
+      <div class="space-tag" data-fr="Rencontre mobile" data-en="Mobile outreach">Rencontre mobile</div>
+      <div class="space-name">Le Youyou</div>
+      <div class="space-desc" data-fr="Caravane-bibliothèque itinérante (Bizethèque) au cœur du quartier Bizet" data-en="Itinerant library caravan (Bizethèque) at the heart of the Bizet neighbourhood">Caravane-bibliothèque itinérante (Bizethèque) au cœur du quartier Bizet</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION HEADER -->
+<div class="section-header">
+  <div class="section-eyebrow" data-fr="Quatre niveaux d'engagement" data-en="Four levels of engagement">Quatre niveaux d'engagement</div>
+  <h2 class="section-title" data-fr="Comment contribuer à Le CAP" data-en="How to contribute to Le CAP">Comment contribuer à Le CAP</h2>
+  <p class="section-sub" data-fr="Chaque niveau reflète une forme différente d'ancrage. La contribution peut être financière, en temps, en compétences — ou les trois à la fois." data-en="Each tier reflects a different form of engagement. Contribution can be financial, in time, in skills — or all three at once.">Chaque niveau reflète une forme différente d'ancrage. La contribution peut être financière, en temps, en compétences — ou les trois à la fois.</p>
+</div>
+
+<!-- TIERS -->
+<section class="tiers-section" id="tiers">
+  <div class="tiers-grid" id="tiers-list"></div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div>
+      <div class="foot-logo">Le CAP</div>
+      <div class="foot-detail">
+        35 place Bizet<br>
+        1070 Anderlecht, Belgique<br>
+        <a href="mailto:regie@cie-ahmonamour.com">regie@cie-ahmonamour.com</a><br>
+        +32 472 26 54 56
+      </div>
+    </div>
+    <div>
+      <div class="foot-col-label" data-fr="Le lieu" data-en="The space">Le lieu</div>
+      <ul class="foot-links">
+        <li><a href="https://www.lecap.brussels" target="_blank">lecap.brussels</a></li>
+        <li><a href="https://www.lecap.brussels/à-propos-de-nous" target="_blank" data-fr="À propos du CAP" data-en="About Le CAP">À propos du CAP</a></li>
+        <li><a href="https://le-cap-louer-ou-r-sider-au-cap-191844993118.us-west1.run.app/" target="_blank" data-fr="Louer ou résider" data-en="Rent or reside">Louer ou résider</a></li>
+        <li><a href="https://www.anderlecht.be/fr/bizet" target="_blank" data-fr="Contrat de quartier Bizet" data-en="Bizet neighbourhood contract">Contrat de quartier Bizet</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot-col-label" data-fr="Suivre" data-en="Follow">Suivre</div>
+      <ul class="foot-links">
+        <li><a href="https://www.instagram.com/cieahmonamour/" target="_blank">Instagram</a></li>
+        <li><a href="https://www.facebook.com/ahmonamour" target="_blank">Facebook</a></li>
+        <li><a href="http://www.cie-ahmonamour.com" target="_blank">ASBL Ah Mon Amour!</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom" data-fr="© 2025 Le CAP · Prototype membership — maquette à des fins de démonstration" data-en="© 2025 Le CAP · Membership prototype — mockup for demonstration purposes">© 2025 Le CAP · Prototype membership — maquette à des fins de démonstration</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal-box" role="dialog" aria-modal="true"></div>
+</div>
+
+<script>
+var lang='fr';
+var RENT_URL='https://le-cap-louer-ou-r-sider-au-cap-191844993118.us-west1.run.app/';
+
+var COLORS=['#888780','#3B5FDB','#E8A020','#2E7D52'];
+
+var TIERS={
+fr:[
+  {num:'01',name:'Audience',price:'Billetterie · prix du ticket par événement',
+   desc:'Vous êtes spectateur·trice des événements et spectacles du CAP. Vous achetez un ticket pour chaque événement qui vous intéresse. Votre contribution : € directement à l\'événement. Ce dont vous bénéficiez : des services culturels de qualité dans votre quartier.',
+   tags:['Ticket par événement','Agenda culturel du quartier','Services culturels','Billetterie en ligne'],
+   confirm:'Merci ! Vous recevrez votre billet et les informations pratiques pour l\'événement par email.'},
+  {num:'02',name:'Residences',price:'Sur candidature · journée, semaine ou mois',
+   desc:'Vous êtes artiste, compagnie, formateur·trice ou organisme de formation. Vous avez besoin d\'un espace professionnel pour créer, répéter, former ou présenter. Vous louez Le Pont : plateau 80m² modulable, lumière zénithale, cuisine, jardin. En contrepartie : membership au CAP et visibilité dans notre programme.',
+   tags:['Le Pont 80m² flexible','Lumière zénithale','Configuration libre','Accès jardin','Membership inclus','Visibilité programme'],
+   rentLink:true,
+   confirm:'Votre demande est reçue. Consultez notre site de location pour les disponibilités et les tarifs détaillés.'},
+  {num:'03',name:'Contributors',price:'Banque du temps · échanges de compétences',
+   desc:'Vous êtes une association, un individu ou un collectif (DJ, performeur·euse, organisateur·trice d\'événements, jeune entrepreneur·e...). Vous contribuez par votre temps, votre aide à l\'organisation d\'événements, vos compétences ou un pourcentage de vos revenus. En retour : accès aux espaces, audience, réseau. Le principe : activer l\'espace ensemble.',
+   tags:['Associations · Individus · Collectifs','Banque du temps','Aide à l\'organisation d\'événements','Compétences & savoir-faire','Accès aux espaces','Audience & réseau'],
+   confirm:'Vous rejoignez les Contributors du CAP ! Un·e membre de l\'équipe vous contactera sous 48h pour définir votre apport dans la banque du temps.'},
+  {num:'04',name:'Partners',price:'Convention · institutionnel ou co-gouvernance',
+   desc:'Vous êtes administrateur·trice, coordinateur·trice, programmateur·trice — ou un partenaire institutionnel (école, université, service de conseil, service social, projet EU, centre d\'éducation pour adultes). Vous avez besoin d\'espaces pour des conférences, présentations de projets, événements de networking ou activités culturelles. Vous co-construisez la vision du CAP.',
+   tags:['Administrateurs · Coordinateurs · Programmateurs','Écoles & universités','Projets EU & Hackathons','Conférences & networking','Co-gouvernance du lieu','Accès illimité'],
+   confirm:'Votre partenariat est précieux pour Le CAP. La direction vous contactera pour les modalités concrètes.'}
+],
+en:[
+  {num:'01',name:'Audience',price:'Ticketing · price per event ticket',
+   desc:'You are a spectator of Le CAP\'s events and performances. You buy a ticket for each event that interests you. Your contribution: € directly to the event. What you get: quality cultural services in your neighbourhood.',
+   tags:['Ticket per event','Neighbourhood cultural agenda','Cultural services','Online ticketing'],
+   confirm:'Thank you! You\'ll receive your ticket and practical information for the event by email.'},
+  {num:'02',name:'Residences',price:'By application · day, week or month',
+   desc:'You are an artist, company, trainer or training organisation. You need a professional space to create, rehearse, train or present. You rent Le Pont: 80m² modular stage, zenithal light, kitchen, garden. In return: CAP membership and visibility in our programme.',
+   tags:['Le Pont 80m² flexible','Zenithal light','Free configuration','Garden access','Membership included','Programme visibility'],
+   rentLink:true,
+   confirm:'Your request has been received. Visit our rental site for availability and detailed rates.'},
+  {num:'03',name:'Contributors',price:'Time bank · skills exchange',
+   desc:'You are an association, individual or collective (DJ, performer, event organiser, young entrepreneur...). You contribute through your time, help with organising events, skills, or a percentage of your income. In return: space access, audience, network. The principle: activate the space together.',
+   tags:['Associations · Individuals · Collectives','Time bank','Help organising events','Skills & know-how','Space access','Audience & network'],
+   confirm:'You\'re joining Le CAP Contributors! A team member will reach out within 48h to define your contribution to the time bank.'},
+  {num:'04',name:'Partners',price:'Agreement · institutional or co-governance',
+   desc:'You are an administrator, coordinator, programmer — or an institutional partner (school, university, counselling service, social support, EU project, adult education centre). You need spaces for conferences, project presentations, networking events or cultural activities. You co-build the vision of Le CAP.',
+   tags:['Administrators · Coordinators · Programmers','Schools & universities','EU projects & Hackathons','Conferences & networking','Co-governance of the space','Unlimited access'],
+   confirm:'Your partnership is invaluable to Le CAP. Leadership will contact you to discuss the details.'}
+]};
+
+var UI={
+fr:{join:'Rejoindre →',levelLabel:'Niveau',confirm1sub:'Confirmez votre choix avant de continuer.',confirmed:'Niveau choisi',cont:'Continuer →',orCont:'Faire une demande →',rentSite:'Voir les disponibilités & tarifs',step2ey:'Étape 2 — Vos informations',step2t:'Présentez-vous',step2sub:'Quelques informations pour que l\'équipe du CAP puisse vous accueillir.',lname:'Prénom et nom',lemail:'Adresse e-mail',lwhy:'Pourquoi Le CAP ? (optionnel)',pname:'ex. Marie Dupont',pemail:'ex. marie@email.com',pwhy:'Ce qui m\'attire dans Le CAP, c\'est…',commit:'Je m\'engage →',welcome:'Bienvenue,',close:'Fermer'},
+en:{join:'Join →',levelLabel:'Tier',confirm1sub:'Confirm your choice before continuing.',confirmed:'Chosen tier',cont:'Continue →',orCont:'Send a request →',rentSite:'See availability & rates',step2ey:'Step 2 — Your details',step2t:'Introduce yourself',step2sub:'A few details so the Le CAP team can welcome you properly.',lname:'Full name',lemail:'Email address',lwhy:'Why Le CAP? (optional)',pname:'e.g. Marie Dupont',pemail:'e.g. marie@email.com',pwhy:'What draws me to Le CAP is…',commit:'I\'m in →',welcome:'Welcome,',close:'Close'}
+};
+
+function checkIcon(color){
+  return'<svg viewBox="0 0 9 9" fill="none" stroke="'+color+'" stroke-width="2"><polyline points="1.5,4.5 3.5,6.5 7.5,2.5"/></svg>';
+}
+
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.textContent===l.toUpperCase())});
+  document.querySelectorAll('[data-'+l+']').forEach(function(el){el.textContent=el.getAttribute('data-'+l)});
+  renderTiers();
+}
+
+function renderTiers(){
+  var tiers=TIERS[lang];
+  var ui=UI[lang];
+  var html='';
+  tiers.forEach(function(t,i){
+    var c=COLORS[i];
+    var tagsHtml=t.tags.map(function(tag){
+      return'<div class="tier-tag"><div class="tier-tag-icon" style="border-color:'+c+';color:'+c+'">'+checkIcon(c)+'</div>'+tag+'</div>';
+    }).join('');
+    html+='<div class="tier-card" onclick="openModal('+i+')" tabindex="0" role="button" onkeydown="if(event.key===\'Enter\')openModal('+i+')" aria-label="'+t.name+'">';
+    html+='<div class="tier-left">';
+    html+='<div class="tier-num" style="color:'+c+'">'+t.num+'</div>';
+    html+='<div class="tier-accent-bar" style="background:'+c+'"></div>';
+    html+='</div>';
+    html+='<div class="tier-body">';
+    html+='<div class="tier-name">'+t.name+'</div>';
+    html+='<div class="tier-price">'+t.price+'</div>';
+    html+='<div class="tier-desc">'+t.desc+'</div>';
+    html+='<div class="tier-tags">'+tagsHtml+'</div>';
+    html+='</div>';
+    html+='<div class="tier-action"><button class="tier-btn" tabindex="-1">'+ui.join+'</button></div>';
+    html+='</div>';
+  });
+  document.getElementById('tiers-list').innerHTML=html;
+}
+
+var activeIdx=null,step=1;
+function openModal(i){activeIdx=i;step=1;renderModal();document.getElementById('modal-backdrop').classList.add('open')}
+function closeModal(){document.getElementById('modal-backdrop').classList.remove('open')}
+function goStep(n){step=n;renderModal()}
+
+function dots(s){
+  return'<div class="steps">'+[1,2,3].map(function(i){return'<div class="step-dot '+(i<s?'done':i===s?'active':'')+'"></div>'}).join('')+'</div>';
+}
+
+function renderModal(){
+  var t=TIERS[lang][activeIdx];
+  var ui=UI[lang];
+  var c=COLORS[activeIdx];
+  var box=document.getElementById('modal-box');
+
+  if(step===1){
+    var rentBtn=t.rentLink
+      ?'<a href="'+RENT_URL+'" target="_blank" class="rent-link-btn" style="color:'+c+';border-color:'+c+'22;background:'+c+'08">'+
+        '<span>'+ui.rentSite+'</span>'+
+        '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="'+c+'" stroke-width="1.5"><path d="M2 10L10 2M5 2h5v5"/></svg>'+
+        '</a>'
+      :'';
+    box.innerHTML=
+      '<button class="modal-close" onclick="closeModal()">✕</button>'+
+      '<div class="modal-eyebrow" style="color:'+c+'">'+ui.levelLabel+' '+t.num+'</div>'+
+      '<div class="modal-title">'+t.name+'</div>'+
+      '<div class="modal-sub">'+ui.confirm1sub+'</div>'+
+      dots(1)+
+      '<div class="confirm-box" style="border-left-color:'+c+'">'+
+        '<div class="confirm-label">'+ui.confirmed+'</div>'+
+        '<div class="confirm-name">'+t.name+'</div>'+
+        '<div class="confirm-price">'+t.price+'</div>'+
+      '</div>'+
+      rentBtn+
+      '<button class="btn-primary" style="background:'+c+';box-shadow:0 2px 8px '+c+'40" onclick="goStep(2)">'+(t.rentLink?ui.orCont:ui.cont)+'</button>';
+  } else if(step===2){
+    box.innerHTML=
+      '<button class="modal-close" onclick="closeModal()">✕</button>'+
+      '<div class="modal-eyebrow" style="color:'+c+'">'+ui.step2ey+'</div>'+
+      '<div class="modal-title">'+ui.step2t+'</div>'+
+      '<div class="modal-sub">'+ui.step2sub+'</div>'+
+      dots(2)+
+      '<div class="form-field"><label>'+ui.lname+'</label><input type="text" placeholder="'+ui.pname+'" autocomplete="name"></div>'+
+      '<div class="form-field"><label>'+ui.lemail+'</label><input type="email" placeholder="'+ui.pemail+'" autocomplete="email"></div>'+
+      '<div class="form-field"><label>'+ui.lwhy+'</label><textarea placeholder="'+ui.pwhy+'"></textarea></div>'+
+      '<button class="btn-primary" style="background:'+c+';box-shadow:0 2px 8px '+c+'40" onclick="goStep(3)">'+ui.commit+'</button>';
+  } else {
+    box.innerHTML=
+      '<div class="success-wrap">'+
+      '<div class="success-check">✓</div>'+
+      dots(4)+
+      '<div class="success-title">'+ui.welcome+' '+t.name+'!</div>'+
+      '<div class="success-body">'+t.confirm+'</div>'+
+      '<div class="success-contact"><strong>Le CAP · 35 place Bizet, 1070 Anderlecht</strong>regie@cie-ahmonamour.com · +32 472 26 54 56</div>'+
+      '<button class="btn-primary" style="background:'+c+';box-shadow:0 2px 8px '+c+'40" onclick="closeModal()">'+ui.close+'</button>'+
+      '</div>';
+  }
+}
+
+document.getElementById('modal-backdrop').addEventListener('click',function(e){if(e.target.id==='modal-backdrop')closeModal()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
+renderTiers();
+</script>
+</body>
+</html>
