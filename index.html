@@ -105,6 +105,37 @@ nav{
 }
 .hero-img-cap{font-size:0.75rem;color:var(--text-light);font-weight:300}
 
+/* ── CAROUSEL ── */
+.carousel-container{
+  position:relative;margin-bottom:1rem;
+}
+.carousel-images{
+  width:100%;aspect-ratio:4/3;
+  border-radius:calc(var(--radius) - 4px);
+  overflow:hidden;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.carousel-image{
+  width:100%;height:100%;object-fit:cover;
+  animation:fade-in 0.4s ease;
+}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+.carousel-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:36px;height:36px;
+  background:rgba(255,255,255,0.9);border:1px solid var(--border);
+  border-radius:50%;
+  cursor:pointer;font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+  color:var(--text-dark);font-weight:600;
+}
+.carousel-btn:hover{
+  background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+.carousel-btn.prev{left:8px}
+.carousel-btn.next{right:8px}
+
 /* ── SPACES ── */
 .spaces-section{max-width:1100px;margin:0 auto;padding:0 2.5rem 5rem}
 .spaces-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
@@ -333,13 +364,13 @@ footer{
     </a>
   </div>
   <div class="hero-right">
-    <div class="hero-stat-label" data-fr="Lieu fondé en" data-en="Space founded">Lieu fondé en</div>
-    <div class="hero-stat-val">2022</div>
-    <div class="hero-stat-divider"></div>
-    <img class="hero-img"
-      src="https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg"
-      alt="Le CAP — Le Pont">
-    <div class="hero-img-cap">Le Pont · 35 place Bizet, Anderlecht</div>
+    <div class="hero-stat-label" data-fr="Découvrir" data-en="Discover">Découvrir</div>
+    <div class="carousel-container">
+      <div class="carousel-images" id="carousel-image"></div>
+      <button class="carousel-btn prev" id="carousel-prev">←</button>
+      <button class="carousel-btn next" id="carousel-next">→</button>
+    </div>
+    <div class="hero-img-cap" id="carousel-caption"></div>
   </div>
 </section>
 
@@ -463,6 +494,25 @@ en:[
    confirm:'Your partnership is invaluable to Le CAP. Leadership will contact you to discuss the details.'}
 ]};
 
+var CAROUSEL={
+fr:[
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Le Pont - plateau de création',caption:'Le Pont — Plateau 80m² pour créations artistiques'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Événement au CAP',caption:'Événement — Spectacles et performances communautaires'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Le CAP - espace collaboratif',caption:'Espace — Création collaborative et résidences artistiques'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Workshop au CAP',caption:'Workshop — Formation et partage de compétences'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Communauté Le CAP',caption:'Communauté — Innovation sociale et solidarité'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Le CAP - lieu de rencontre',caption:'Rencontre — Un tiers-lieu pour tous'}
+],
+en:[
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Le Pont - creative stage',caption:'Le Pont — 80m² stage for artistic creations'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Event at Le CAP',caption:'Events — Shows and community performances'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Le CAP - collaborative space',caption:'Space — Collaborative creation and artistic residencies'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Workshop at Le CAP',caption:'Workshop — Training and skill sharing'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Le CAP community',caption:'Community — Social innovation and solidarity'},
+  {src:'https://static.wixstatic.com/media/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg/v1/fit/w_960,h_960,q_90,enc_avif,quality_auto/97f020_60dfe434ff854e7bb30f0b0b9059e790~mv2.jpg',alt:'Le CAP - meeting place',caption:'Meeting — A third place for all'}
+]
+};
+
 var UI={
 fr:{join:'Rejoindre →',levelLabel:'Niveau',confirm1sub:'Confirmez votre choix avant de continuer.',confirmed:'Niveau choisi',cont:'Continuer →',orCont:'Faire une demande →',rentSite:'Voir les disponibilités & tarifs',step2ey:'Étape 2 — Vos informations',step2t:'Présentez-vous',step2sub:'Quelques informations pour que l\'équipe du CAP puisse vous accueillir.',lname:'Prénom et nom',lemail:'Adresse e-mail',lwhy:'Pourquoi Le CAP ? (optionnel)',pname:'ex. Marie Dupont',pemail:'ex. marie@email.com',pwhy:'Ce qui m\'attire dans Le CAP, c\'est…',commit:'Je m\'engage →',welcome:'Bienvenue,',close:'Fermer'},
 en:{join:'Join →',levelLabel:'Tier',confirm1sub:'Confirm your choice before continuing.',confirmed:'Chosen tier',cont:'Continue →',orCont:'Send a request →',rentSite:'See availability & rates',step2ey:'Step 2 — Your details',step2t:'Introduce yourself',step2sub:'A few details so the Le CAP team can welcome you properly.',lname:'Full name',lemail:'Email address',lwhy:'Why Le CAP? (optional)',pname:'e.g. Marie Dupont',pemail:'e.g. marie@email.com',pwhy:'What draws me to Le CAP is…',commit:'I\'m in →',welcome:'Welcome,',close:'Close'}
@@ -472,11 +522,33 @@ function checkIcon(color){
   return'<svg viewBox="0 0 9 9" fill="none" stroke="'+color+'" stroke-width="2"><polyline points="1.5,4.5 3.5,6.5 7.5,2.5"/></svg>';
 }
 
+var carouselIdx=0;
+
 function setLang(l){
   lang=l;
   document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.textContent===l.toUpperCase())});
   document.querySelectorAll('[data-'+l+']').forEach(function(el){el.textContent=el.getAttribute('data-'+l)});
   renderTiers();
+  showCarouselImage(carouselIdx);
+}
+
+function initCarousel(){
+  document.getElementById('carousel-prev').addEventListener('click',function(){
+    carouselIdx=(carouselIdx-1+CAROUSEL[lang].length)%CAROUSEL[lang].length;
+    showCarouselImage(carouselIdx);
+  });
+  document.getElementById('carousel-next').addEventListener('click',function(){
+    carouselIdx=(carouselIdx+1)%CAROUSEL[lang].length;
+    showCarouselImage(carouselIdx);
+  });
+  showCarouselImage(0);
+}
+
+function showCarouselImage(idx){
+  var img=CAROUSEL[lang][idx];
+  var imgEl=document.getElementById('carousel-image');
+  imgEl.innerHTML='<img class="carousel-image" src="'+img.src+'" alt="'+img.alt+'">';
+  document.getElementById('carousel-caption').textContent=img.caption;
 }
 
 function renderTiers(){
@@ -567,6 +639,7 @@ function renderModal(){
 document.getElementById('modal-backdrop').addEventListener('click',function(e){if(e.target.id==='modal-backdrop')closeModal()});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
 renderTiers();
+initCarousel();
 </script>
 </body>
 </html>
